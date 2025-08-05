@@ -14,11 +14,11 @@ const Title = () => (
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState("Login");
-   useEffect (
-    () => {
-      console.log("useEffect called");
-    }, [isLoggedIn]
-  );
+  //  useEffect (
+  //   () => {
+  //     console.log("useEffect called");
+  //   }, [isLoggedIn]
+  // );
   return (
     <div>
       <div className="header">
@@ -42,10 +42,10 @@ const Header = () => {
   );
 };
 
-const HeaderComponent = () => {
-    return (
-      <Header />   
-    );
-}
+// const HeaderComponent = () => {
+//     return (
+//       <Header />   
+//     );
+// }
 
 export default Header;
