@@ -1,4 +1,5 @@
 import { HEADER_LOGO } from "../../Utills/constants";
+import { useState, useEffect } from "react";
 
 const Title = () => (
   <><h1 id="title" key="h2">
@@ -12,6 +13,12 @@ const Title = () => (
 );
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState("Login");
+   useEffect (
+    () => {
+      console.log("useEffect called");
+    }, [isLoggedIn]
+  );
   return (
     <div>
       <div className="header">
@@ -23,6 +30,11 @@ const Header = () => {
             <li>About</li>
             <li>Contact</li>
             <li>Cart</li>
+            <button onClick={() => {
+              isLoggedIn === "Login" ?
+                setIsLoggedIn("Logout") :     
+              setIsLoggedIn("Login");
+            } }>{isLoggedIn}</button>
           </ul>
         </div>
       </div>

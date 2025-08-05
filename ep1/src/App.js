@@ -1,5 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
+import { createHashRouter, RouterProvider} from 'react-router-dom';
+import About from './Components/About';
+import Contact from './Components/Contact'
 
 const heading = React.createElement(
   "h1",
@@ -51,5 +54,20 @@ const BodyComponent = () => (
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //passing a react element inside the root
 //async defer
-root.render(<BodyComponent/>);
+
+const appRouter = createHashRouter([
+  {
+    path: "/",
+    element: <BodyComponent />,
+  },
+  {
+    path: "/about",
+    element: <About/>
+  },
+  {
+    path: "/contact",
+    element : <Contact/>
+  }
+])
+root.render(< RouterProvider router  = {appRouter}/>);
 

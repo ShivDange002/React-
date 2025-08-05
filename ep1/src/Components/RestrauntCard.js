@@ -1,4 +1,4 @@
-const RestrauntCard = ({
+const RestaurantCard = ({
   name,
   cuisines,
   cloudinaryImageId,
@@ -18,4 +18,4 @@ const RestrauntCard = ({
 };
 
 
-export default RestrauntCard;
+export default RestaurantCard;
