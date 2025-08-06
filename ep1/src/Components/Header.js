@@ -1,5 +1,6 @@
 import { HEADER_LOGO } from "../../Utills/constants";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Title = () => (
   <><h1 id="title" key="h2">
@@ -25,11 +26,14 @@ const Header = () => {
         <Title />
 
         <div className="nav-items">
+          <ul className="nav-list">
+            <Link to={"/"}>Home</Link>
+            <Link to={"/about"} >About</Link>
+            <Link to={"/contact"} >Contact</Link>
+            <Link to={"/cart"} >Cart</Link>
+          </ul>
           <ul>
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Cart</li>
+            {/* <li>Login</li> */}
             <button onClick={() => {
               isLoggedIn === "Login" ?
                 setIsLoggedIn("Logout") :     
