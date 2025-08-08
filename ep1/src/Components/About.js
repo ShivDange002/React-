@@ -14,18 +14,36 @@ import React from "react";
 
 class About extends React.Component {
     constructor(props){
-        super(props)
-   console.log("Parent component consstructor called");
+        super(props);
+
+        this.state = {
+            name: "Dummy",
+            email: "Dummy email",
+           
+        }
+
+   //console.log("Parent component consstructor called");
     }
-    componentDidMount(){
-        console.log("Parent component did mount called");
+   async  componentDidMount(){
+
+    const data = await fetch("https://jsonplaceholder.typicode.com/users/1");
+    const json = await data.json();
+    this.setState({
+        name: json.name,
+        email: json.email
+    });
+console.log(json);
+       // console.log("Parent component did mount called");
     }
     render() {
-           console.log("Parent component render called");
+
+        const { name, email} = this.state;
+        //    console.log("Parent component render called");
         return(
             <div>
                 <h1> About Us Component</h1>
-                <UserClass name = {"Pooja"} city = {"Pune"} country = {"India"}/>
+                
+                   <UserClass name = {name}  email  ={email} />
             </div>
         )
     }

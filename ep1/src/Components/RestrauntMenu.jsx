@@ -1,29 +1,14 @@
 import {useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
-import { CDN_URL, MENU_API } from "../../Utills/constants"
+import { CDN_URL, MENU_API } from "../../Utills/constants";
+import useRastrauntMenu from "../../Utills/useRestrauntMenu" // Import the custom hook
 
 
 const RestrauntMenu = () => {
-    const [resInfo, setResInfo] = useState(null);
-    const { restaurantId } = useParams(); // ← Get dynamic ID from URL
+     const { restaurantId } = useParams(); // ← Get dynamic ID from URL
 
-    useEffect(() => {
-        fetchMenuData();
-    }, [restaurantId]); // Re-run if ID changes
-
-    const fetchMenuData = async () => {
-        try {
-            const res = await fetch(
-                MENU_API + restaurantId
-            );
-            const json = await res.json();
-            setResInfo(json);
-        } catch (err) {
-            console.error("Failed to fetch restaurant data", err);
-        }
-    };
-
+      const resInfo  = useRastrauntMenu(restaurantId);
     if (!resInfo) return <Shimmer />;
 
     // Restaurant Info
