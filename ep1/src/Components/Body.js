@@ -2,7 +2,7 @@ import RestaurantCard from "./RestrauntCard";
 import { restaurantList } from "../../Utills/mockData";
 import { useEffect, useState } from "react";
 import  Shimmer  from "./Shimmer";
-
+import { Link } from "react-router-dom";
 // What is state
 // what is React Hooks? - functions,
 // What is useState
@@ -66,11 +66,13 @@ const Body = () => {
           const cardData = restaurant.data || restaurant.info || restaurant;
           if (!cardData || !cardData.id) return null;
           return (
+            <Link to={"/restraunts/" + cardData.id} key={cardData.id}>
             <RestaurantCard
               {...cardData}
               lastMileTravelString={cardData.lastMileTravelString || cardData.lastMileTravel || ""}
-              key={cardData.id}
+             
             />
+            </Link>
           );
         })}
       </div>
