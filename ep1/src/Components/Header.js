@@ -1,56 +1,63 @@
 import { HEADER_LOGO } from "../../Utills/constants";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Title = () => (
-  <><h1 id="title" key="h2">
-        Food Villa
-    </h1><a href="/">
-            <img
-                className="logo"
-                alt="logo"
-                src= {HEADER_LOGO}/>
-        </a></>
+  <div className="flex items-center space-x-2">
+    <h1 id="title" key="h2" className="text-2xl font-bold text-gray-800">
+      Food Villa
+    </h1>
+    <a href="/">
+      <img
+        className="w-12 h-12 rounded-full border-2 border-gray-300"
+        alt="logo"
+        src={HEADER_LOGO}
+      />
+    </a>
+  </div>
 );
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState("Login");
-  //  useEffect (
-  //   () => {
-  //     console.log("useEffect called");
-  //   }, [isLoggedIn]
-  // );
+
   return (
-    <div>
-      <div className="header">
+    <header className="bg-white shadow-md">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        
+        {/* Logo & Title */}
         <Title />
 
-        <div className="nav-items">
-          <ul className="nav-list">
-            <Link to={"/"}>Home</Link>
-            <Link to={"/about"} >About</Link>
-            <Link to={"/contact"} >Contact</Link>
-            <Link to={"/cart"} >Cart</Link>
-            <Link to={"/grocery"} >Grocery</Link>
-          </ul>
-          <ul>
-            {/* <li>Login</li> */}
-            <button onClick={() => {
-              isLoggedIn === "Login" ?
-                setIsLoggedIn("Logout") :     
-              setIsLoggedIn("Login");
-            } }>{isLoggedIn}</button>
-          </ul>
-        </div>
+        {/* Navigation */}
+        <nav className="flex items-center space-x-6">
+          <Link to="/" className="text-gray-700 hover:text-blue-500 font-medium">
+            Home
+          </Link>
+          <Link to="/about" className="text-gray-700 hover:text-blue-500 font-medium">
+            About
+          </Link>
+          <Link to="/contact" className="text-gray-700 hover:text-blue-500 font-medium">
+            Contact
+          </Link>
+          <Link to="/cart" className="text-gray-700 hover:text-blue-500 font-medium">
+            Cart
+          </Link>
+          <Link to="/grocery" className="text-gray-700 hover:text-blue-500 font-medium">
+            Grocery
+          </Link>
+        </nav>
+
+        {/* Login / Logout Button */}
+        <button
+          onClick={() =>
+            setIsLoggedIn(isLoggedIn === "Login" ? "Logout" : "Login")
+          }
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-200"
+        >
+          {isLoggedIn}
+        </button>
       </div>
-    </div>
+    </header>
   );
 };
-
-// const HeaderComponent = () => {
-//     return (
-//       <Header />   
-//     );
-// }
 
 export default Header;

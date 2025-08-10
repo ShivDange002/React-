@@ -1,11 +1,9 @@
 import RestaurantCard from "./RestrauntCard";
 import { restaurantList } from "../../Utills/mockData";
 import { useEffect, useState } from "react";
-import  Shimmer  from "./Shimmer";
+import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-// What is state
-// what is React Hooks? - functions,
-// What is useState
+
 function filterData(searchText, restaurants) {
   return restaurants.filter((restaurant) => {
     const cardData = restaurant.data || restaurant.info || restaurant;
@@ -15,9 +13,10 @@ function filterData(searchText, restaurants) {
     );
   });
 }
+
 const Body = () => {
   const [restaurants, setRestaurants] = useState([]);
-  const [allRestaurants, setAllRestaurants] = useState([]); // <-- Add this
+  const [allRestaurants, setAllRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
@@ -26,32 +25,58 @@ const Body = () => {
 
   const fetchData = async () => {
     try {
-      const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7041&lng=77.1025&page_type=DESKTOP_WEB_LISTING");
+      const data = await fetch(
+        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7041&lng=77.1025&page_type=DESKTOP_WEB_LISTING"
+      );
       const json = await data.json();
-      const apiRestaurants = json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
-      setRestaurants(apiRestaurants);
-      setAllRestaurants(apiRestaurants); // <-- Save original list
+      const apiRestaurants =
+        json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants || [];
+
+      // ✅ Remove duplicate restaurants by ID
+      const uniqueRestaurants = apiRestaurants.filter(
+        (res, index, self) => {
+          const id = (res.data?.id || res.info?.id || res.id);
+          return index === self.findIndex(
+            (r) => (r.data?.id || r.info?.id || r.id) === id
+          );
+        }
+      );
+
+      setRestaurants(uniqueRestaurants);
+      setAllRestaurants(uniqueRestaurants);
     } catch (error) {
-      setRestaurants(restaurantList);
-      setAllRestaurants(restaurantList); // <-- Save original list
+      const uniqueFallback = restaurantList.filter(
+        (res, index, self) => {
+          const id = (res.data?.id || res.info?.id || res.id);
+          return index === self.findIndex(
+            (r) => (r.data?.id || r.info?.id || r.id) === id
+          );
+        }
+      );
+      setRestaurants(uniqueFallback);
+      setAllRestaurants(uniqueFallback);
     }
   };
 
-  return (restaurants.length === 0) ? (<Shimmer />) : (
-    <>
-      <div className="search-container">
+  if (restaurants.length === 0) return <Shimmer />;
+
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Search Bar */}
+      <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
         <input
           type="text"
-          className="search-input"
-          placeholder="Search"
+          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Search restaurants..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
         <button
-          className="search-btn"
+          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-200"
           onClick={() => {
             if (searchText.trim() === "") {
-              setRestaurants(allRestaurants); // Reset to all if search is empty
+              setRestaurants(allRestaurants);
             } else {
               const data = filterData(searchText, allRestaurants);
               setRestaurants(data);
@@ -61,22 +86,30 @@ const Body = () => {
           Search
         </button>
       </div>
-      <div className="restaurant-list">
+
+      {/* Restaurant List */}
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {restaurants.map((restaurant) => {
           const cardData = restaurant.data || restaurant.info || restaurant;
           if (!cardData || !cardData.id) return null;
+
           return (
-            <Link to={"/restraunts/" + cardData.id} key={cardData.id}>
-            <RestaurantCard
-              {...cardData}
-              lastMileTravelString={cardData.lastMileTravelString || cardData.lastMileTravel || ""}
-             
-            />
+            <Link
+              to={`/restraunts/${cardData.id}`}
+              key={cardData.id}
+              className="block"
+            >
+              <RestaurantCard
+                {...cardData}
+                lastMileTravelString={
+                  cardData.lastMileTravelString || cardData.lastMileTravel || ""
+                }
+              />
             </Link>
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 
