@@ -12,6 +12,8 @@ const RestrauntMenu = () => {
   const restaurantCard = resInfo?.data?.cards?.find(
     (card) => card?.card?.card?.info
   );
+
+  console.log("Restaurant Card:", resInfo?.data?.cards );
   const info = restaurantCard?.card?.card?.info || {};
 
   const {

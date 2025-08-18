@@ -38,7 +38,7 @@ const Header = () => {
           <Link to="/contact" className="text-gray-700 hover:text-blue-500 font-medium">
             Contact
           </Link>
-          <Link to="/cart" className="text-gray-700 hover:text-blue-500 font-medium">
+          <Link to="/cart" className="text-gray-700 hover:text-blue-500 font-extrabold">
             Cart
           </Link>
           <Link to="/grocery" className="text-gray-700 hover:text-blue-500 font-medium">

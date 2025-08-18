@@ -11,6 +11,8 @@ import Error from "./src/Components/Error";
 import Cart from "./src/Components/Cart"
 //import Grocery from "./src/Components/Grocery";
 import Shimmer from "./src/Components/Shimmer";
+import { Provider } from "react-redux";
+import appStore from "./Utills/appStore";
 
 
 const Grocery = lazy(() => import("./src/Components/Grocery"));
@@ -19,11 +21,15 @@ const RestrauntMenu = lazy(() => import("./src/Components/RestrauntMenu"));
 
 const AppLayout = () => {
   return (
+   
     <>
+     {/* <Provider store={appStore}> */}
       <Header />
       {/* <Body /> */}
       <Outlet />
+       {/* </Provider> */}
     </>
+   
   );
 };
 const appRouter = createBrowserRouter([
